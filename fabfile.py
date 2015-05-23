@@ -89,8 +89,8 @@ def config_redis():
 
 def config_openresty():
   put('config/templates/nginx/shorty.init', '/etc/init/shorty.conf', True)
-  put('redirecter/base.conf', '/usr/local/openresty/nginx/conf/nginx.conf', True)
-  put('redirecter/server.conf', '/usr/local/openresty/nginx/conf/shorty.conf', True)
+  put('redirector/base.conf', '/usr/local/openresty/nginx/conf/nginx.conf', True)
+  put('redirector/server.conf', '/usr/local/openresty/nginx/conf/shorty.conf', True)
   sudo('service shorty restart')
 
 def deployer(branch='master'):
