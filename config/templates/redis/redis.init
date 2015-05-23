@@ -1,0 +1,9 @@
+description "redis"
+
+start on runlevel [2345]
+stop on runlevel [016]
+respawn
+
+# Start the process
+chdir /home/{{ user }}
+exec su {{ user }} -l -c "/usr/local/bin/redis-server /etc/redis/redis_shorty.conf"
