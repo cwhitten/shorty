@@ -1,7 +1,9 @@
 Hapi = require 'hapi'
 Shortener = require './lib/shortener'
+{conf} = require './lib/conf'
 
 server = new Hapi.Server()
+host = conf.get 'aws:publicHost'
 server.connection port: Number process.env.PORT or 5000
 
 server.start ->
@@ -26,5 +28,4 @@ server.route
       if err
         reply {err}
       else
-        # todo: get uid to the template
-        reply.view 'shorten.html'
+        reply.view 'shortened.html', {host, uid}
