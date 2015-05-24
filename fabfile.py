@@ -56,6 +56,8 @@ def config(path=env.app_dir):
   print(cyan('================'))
   print(cyan('* Configuring'))
   print(cyan('================'))
+  with cd('/var/www/shorty/'):
+    run('npm install')
   config_redis()
   config_openresty()
 
