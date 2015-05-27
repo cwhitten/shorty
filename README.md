@@ -1,6 +1,6 @@
-#### links given must include protocol and scheme (http://)
+#### Links given must include protocol and scheme (http://)
 
-technologies used:
+Technologies used:
 
 - [Lua cosocket api](https://github.com/openresty/lua-nginx-module)
 - [Redis](http://redis.io/)
