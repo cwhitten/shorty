@@ -14,6 +14,7 @@
 
 ![](http://i.imgur.com/1XG2zIm.jpg)
 
+(Note: architecture above is what the service would look like if not deployed on a free, single t2 micro ec2 instance)
 ---
 
 ### Development
