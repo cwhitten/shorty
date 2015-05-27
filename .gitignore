@@ -1,4 +1,3 @@
 .vagrant
 *.pyc
 node_modules/
-config/environment.json

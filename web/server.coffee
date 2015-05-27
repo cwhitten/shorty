@@ -3,7 +3,10 @@ Shortener = require './lib/shortener'
 {conf} = require './lib/conf'
 
 server = new Hapi.Server()
-host = conf.get 'aws:publicHost'
+environment = process.env.NODE_ENV
+host = if environment is 'development' then \
+  'local.shorty.com' else conf.get 'aws:hostname'
+
 server.connection port: Number process.env.PORT or 5000
 
 server.start ->

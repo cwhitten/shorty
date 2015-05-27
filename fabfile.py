@@ -26,9 +26,9 @@ def vagrant(provider='vmware_fusion'):
 @task
 def aws():
   Utilities.print_header('AWS Mode')
-  env.update(SERVERS[server])
-  env.user = 'shorty'
-  env.environment = environment
+  env.hosts = SERVERS['aws']['hosts']
+  env.user = 'ubuntu'
+  env.environment = 'production'
   env.disable_known_hosts = True
   env.forward_agent = True
 
@@ -40,7 +40,6 @@ def build():
   System.install()
   Git.install()
   Node.install(NODE_VER)
-  Node.environment(env.environment)
   Node.npm('grunt-cli', 'bower', 'coffee-script', 'forever')
   Redis.install()
   sudo('mkdir /var/log/nginx')
@@ -56,8 +55,12 @@ def config(path=env.app_dir):
   print(cyan('================'))
   print(cyan('* Configuring'))
   print(cyan('================'))
-  with cd('/var/www/shorty/'):
-    run('npm install')
+  if env.environment == 'production':
+    path = '/var/www/shorty/current'
+  else:
+    path = '/var/www/short'
+  with cd(path):
+   run('npm install')
   config_redis()
   config_openresty()
 
@@ -66,15 +69,12 @@ def config(path=env.app_dir):
 def deploy(branch='master'):
   execute(export, branch)
   execute(switch)
-  execute(restart)
 
 @task
-@parallel
 def export(branch):
   deployer(branch).run(config)
 
 @task
-@parallel
 def switch():
   deployer().choose_current(1)
 
@@ -94,6 +94,19 @@ def config_openresty():
   put('redirector/base.conf', '/usr/local/openresty/nginx/conf/nginx.conf', True)
   put('redirector/server.conf', '/usr/local/openresty/nginx/conf/shorty.conf', True)
   sudo('service shorty restart')
+
+@task
+def restart(argv=''):
+  config()
+  run('mkdir -p %s/logs' % env.app_dir)
+  forever_list = run('forever list', warn_only=True, quiet=True)
+  if not 'No forever processes running' in forever_list:
+    run('forever stopall')
+  with cd('%s/current' % env.app_dir):
+    node_env = 'NODE_ENV=%s' % env.environment
+    logs = '%s/logs/forever.log' % env.app_dir
+    start = 'coffee web/server.coffee'
+    run('%s forever --uid sho -l %s -a start -c %s %s' % (node_env, logs, start, argv))
 
 def deployer(branch='master'):
   if not 'deployer' in env:

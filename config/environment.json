@@ -1,0 +1,12 @@
+{
+  "aws": {
+    "hostname": "ec2-52-24-108-248.us-west-2.compute.amazonaws.com",
+    "hosts":[
+      "ec2-52-24-108-248.us-west-2.compute.amazonaws.com"
+    ]
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  }
+}

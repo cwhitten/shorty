@@ -1,4 +1,4 @@
-#### links given must include protocol and scheme (https://)
+#### links given must include protocol and scheme (http://)
 
 technologies used:
 
