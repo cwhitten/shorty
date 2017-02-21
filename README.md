@@ -1,5 +1,3 @@
-####[CHECK ME OUT](http://ec2-52-24-108-248.us-west-2.compute.amazonaws.com/) - links given must include protocol and scheme (http://)
-
 ---
 
 ####Technologies used:
